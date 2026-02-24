@@ -180,7 +180,7 @@ vim.diagnostic.config {
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
 
   -- Can switch between these as you prefer
-  virtual_text = true,   -- Text shows up at the end of the line
+  virtual_text = true, -- Text shows up at the end of the line
   virtual_lines = false, -- Teest shows up underneath the line, with virtual lines
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
@@ -219,9 +219,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- shortcut to enable/disable word wrap in all open windows
-vim.keymap.set('n', '<leader>w', function()
-  vim.cmd 'windo set wrap!'
-end, { desc = 'Toggle wrap in all windows' })
+vim.keymap.set('n', '<leader>w', function() vim.cmd 'windo set wrap!' end, { desc = 'Toggle wrap in all windows' })
 
 -- scrollbind toggle for two split windows (toggle in current and other window)
 vim.keymap.set('n', '<leader>sb', function()
@@ -237,9 +235,7 @@ vim.api.nvim_create_autocmd('OptionSet', {
   group = 'DiffWrap',
   pattern = 'diff',
   callback = function()
-    if vim.wo.diff then
-      vim.wo.wrap = true
-    end
+    if vim.wo.diff then vim.wo.wrap = true end
   end,
 })
 
@@ -263,9 +259,7 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Expand current buffer path in command-line: typing %% in :cmd expands to %:h/
 -- (Works like your cnoremap <expr> ...)
 vim.keymap.set('c', '%%', function()
-  if vim.fn.getcmdtype() == ':' then
-    return vim.fn.expand '%:h' .. '/'
-  end
+  if vim.fn.getcmdtype() == ':' then return vim.fn.expand '%:h' .. '/' end
   return '%%'
 end, { expr = true, desc = 'Expand to current file dir in cmdline' })
 
@@ -367,7 +361,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>s', group = '[S]earch',   mode = { 'n', 'v' } },
+        { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
         { 'gr', group = 'LSP Actions', mode = { 'n' } },
@@ -411,7 +405,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -470,7 +464,6 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
-
       -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
       -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -491,15 +484,13 @@ require('lazy').setup({
           vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
           vim.keymap.set('n', 'gd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
 
-
           -- Fuzzy find all the symbols in your current document.
           -- Symbols are things like variables, functions, types, etc.
           vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, { buffer = buf, desc = 'Open Document Symbols' })
 
           -- Fuzzy find all the symbols in your current workspace.
           -- Similar to document symbols, except searches over your entire project.
-          vim.keymap.set('n', 'gW', builtin.lsp_dynamic_workspace_symbols,
-            { buffer = buf, desc = 'Open Workspace Symbols' })
+          vim.keymap.set('n', 'gW', builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = 'Open Workspace Symbols' })
 
           -- Jump to the type of the word under your cursor.
           -- Useful when you're not sure what type a variable is and you want to see
@@ -532,8 +523,7 @@ require('lazy').setup({
       )
 
       -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end,
-        { desc = '[S]earch [N]eovim files' })
+      vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
     end,
   },
 
@@ -558,6 +548,12 @@ require('lazy').setup({
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
+<<<<<<< HEAD
+=======
+
+      -- Allows extra capabilities provided by blink.cmp
+      'saghen/blink.cmp',
+>>>>>>> a5ee967 (improve)
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -648,9 +644,7 @@ require('lazy').setup({
           --
           -- This may be unwanted, since they displace some of your code
           if client and client:supports_method('textDocument/inlayHint', event.buf) then
-            map('<leader>th',
-              function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end,
-              '[T]oggle Inlay [H]ints')
+            map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
@@ -663,6 +657,19 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
+        ruff = {},
+        basedpyright = {
+          -- cmd = { 'basedpyright-langserver', '--stdio' }, -- PATH
+          settings = {
+            basedpyright = {
+              disableOrganizeImports = true,
+              analysis = {
+                ignore = { '*' },
+                diagnosticMode = 'openFilesOnly',
+              },
+            },
+          },
+        },
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -678,12 +685,11 @@ require('lazy').setup({
       --    :Mason
       --
       -- You can press `g?` for help in this menu.
-      local ensure_installed = vim.tbl_keys({} or {})
-      vim.list_extend(ensure_installed, {
-        'lua_ls', -- Lua Language server
+      local ensure_installed = {
+        'lua-language-server', -- Lua Language server
         'stylua', -- Used to format Lua code
         -- You can add other tools here that you want Mason to install
-      })
+      }
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -815,9 +821,7 @@ require('lazy').setup({
           --    https://github.com/rafamadriz/friendly-snippets
           {
             'rafamadriz/friendly-snippets',
-            config = function()
-              require('luasnip.loaders.from_vscode').lazy_load()
-            end,
+            config = function() require('luasnip.loaders.from_vscode').lazy_load() end,
           },
         },
         opts = {},
@@ -832,7 +836,6 @@ require('lazy').setup({
           -- Optional: also enable the standardized doc snippets you mentioned
           require('luasnip').filetype_extend('python', { 'pydoc' })
         end,
-
       },
     },
     ---@module 'blink.cmp'
@@ -955,6 +958,7 @@ require('lazy').setup({
   },
 
   -- Highlight todo, notes, etc in comments
+<<<<<<< HEAD
   {
     'folke/todo-comments.nvim',
     event = 'VimEnter',
@@ -964,6 +968,9 @@ require('lazy').setup({
     ---@diagnostic disable-next-line: missing-fields
     opts = { signs = false },
   },
+=======
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+>>>>>>> a5ee967 (improve)
 
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
@@ -1008,8 +1015,13 @@ require('lazy').setup({
     branch = 'main',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
+<<<<<<< HEAD
       local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
       require('nvim-treesitter').install(parsers)
+=======
+      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      require('nvim-treesitter').install(filetypes)
+>>>>>>> a5ee967 (improve)
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
           local buf, filetype = args.buf, args.match

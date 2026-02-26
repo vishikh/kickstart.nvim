@@ -462,7 +462,17 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set(
+        'n',
+        '<leader>b',
+        function()
+          builtin.buffers {
+            ignore_current_buffer = true,
+            sort_lastused = true,
+          }
+        end,
+        { desc = 'Find existing [b]uffers' }
+      )
 
       -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
       -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
@@ -658,18 +668,19 @@ require('lazy').setup({
         -- gopls = {},
         -- pyright = {},
         ruff = {},
-        basedpyright = {
-          -- cmd = { 'basedpyright-langserver', '--stdio' }, -- PATH
-          settings = {
-            basedpyright = {
-              disableOrganizeImports = true,
-              analysis = {
-                ignore = { '*' },
-                diagnosticMode = 'openFilesOnly',
-              },
-            },
-          },
-        },
+        ty = {},
+        -- basedpyright = {
+        --   -- cmd = { 'basedpyright-langserver', '--stdio' }, -- PATH
+        --   settings = {
+        --     basedpyright = {
+        --       disableOrganizeImports = true,
+        --       analysis = {
+        --         ignore = { '*' },
+        --         diagnosticMode = 'openFilesOnly',
+        --       },
+        --     },
+        --   },
+        -- },
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -896,8 +907,7 @@ require('lazy').setup({
           ['<C-n>'] = { 'select_next', 'fallback' },
           ['<C-p>'] = { 'select_prev', 'fallback' },
 
-          -- Optional: accept completion + run command
-          ['<CR>'] = { 'select_accept_and_enter', 'fallback' },
+          ['<CR>'] = { 'fallback' },
         },
 
         completion = {
@@ -1066,7 +1076,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!

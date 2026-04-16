@@ -661,6 +661,7 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
+        fortls = {},
         ruff = {},
         ty = {},
         -- basedpyright = {
@@ -724,7 +725,7 @@ require('lazy').setup({
       -- You can press `g?` for help in this menu.
       local ensure_installed = {
         'lua-language-server', -- Lua Language server
-        'stylua', -- Used to format Lua code
+        -- 'stylua', -- Used to format Lua code
         -- You can add other tools here that you want Mason to install
       }
 
@@ -989,7 +990,7 @@ require('lazy').setup({
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN
       ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function() return '%2l:%-2v' end
+      statusline.section_location = function() return '%2l:%-2v %2p%%' end
 
       -- ... and there is more!
       --  Check out: https://github.com/nvim-mini/mini.nvim

@@ -440,12 +440,11 @@ do
   }
   require('onedark').load()
 
-
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
   -- vim.cmd.colorscheme 'tokyonight-night'
-  vim.cmd.colorscheme 'navarasu/onedark.nvim'
+  vim.cmd.colorscheme 'onedark'
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -575,7 +574,7 @@ do
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
   vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
   vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-  vim.keymap.set('n', '<leader>b', function() builtin.buffers { ignore_current_buffer = true, sort_lastused = true, } end, { desc = 'Find existing [b]uffers' })
+  vim.keymap.set('n', '<leader>b', function() builtin.buffers { ignore_current_buffer = true, sort_lastused = true } end, { desc = 'Find existing [b]uffers' })
 
   -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
   -- If you later switch picker plugins, this is where to update these mappings.
@@ -594,7 +593,6 @@ do
       -- Jump to the definition of the word under your cursor.
       -- This is where a variable was first declared, or where a function is defined, etc.
       -- To jump back, press <C-t>.
-      vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
       vim.keymap.set('n', 'gd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
 
       -- Fuzzy find all the symbols in your current document.
@@ -905,10 +903,9 @@ do
   vim.pack.add { gh 'rafamadriz/friendly-snippets' }
   require('luasnip.loaders.from_vscode').lazy_load()
   require('luasnip.loaders.from_lua').lazy_load {
-    paths = vim.fn.stdpath('config') .. '/lua/custom/snippets',
+    paths = vim.fn.stdpath 'config' .. '/lua/custom/snippets',
   }
-
-  luasnip.filetype_extend('python', { 'pydoc' })
+  require('luasnip').filetype_extend('python', { 'pydoc' })
 
   -- [[ Autocomplete Engine ]]
   vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
@@ -947,44 +944,44 @@ do
       nerd_font_variant = 'mono',
     },
 
+    completion = {
+      -- By default, you may press `<c-space>` to show the documentation.
+      -- Optionally, set `auto_show = true` to show the documentation after a delay.
+      documentation = { auto_show = false, auto_show_delay_ms = 500 },
+    },
+
+    cmdline = {
+      keymap = {
+        preset = 'none',
+
+        -- Keep Neovim history navigation
+        ['<Up>'] = { 'fallback' },
+        ['<Down>'] = { 'fallback' },
+
+        -- Use these for completion list
+        ['<Tab>'] = { 'select_next', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<C-n>'] = { 'select_next', 'fallback' },
+        ['<C-p>'] = { 'select_prev', 'fallback' },
+
+        ['<CR>'] = { 'fallback' },
+      },
+
       completion = {
-        -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
-      },
-
-      cmdline = {
-        keymap = {
-          preset = 'none',
-
-          -- Keep Neovim history navigation
-          ['<Up>'] = { 'fallback' },
-          ['<Down>'] = { 'fallback' },
-
-          -- Use these for completion list
-          ['<Tab>'] = { 'select_next', 'fallback' },
-          ['<S-Tab>'] = { 'select_prev', 'fallback' },
-          ['<C-n>'] = { 'select_next', 'fallback' },
-          ['<C-p>'] = { 'select_prev', 'fallback' },
-
-          ['<CR>'] = { 'fallback' },
+        menu = {
+          auto_show = true,
         },
-
-        completion = {
-          menu = {
-            auto_show = true,
-          },
-          list = {
-            selection = {
-              preselect = false, -- <- key: don't auto-select an entry
-            },
+        list = {
+          selection = {
+            preselect = false, -- <- key: don't auto-select an entry
           },
         },
       },
+    },
 
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer' },
+    },
 
     snippets = { preset = 'luasnip' },
 
@@ -1079,9 +1076,9 @@ do
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  require 'kickstart.plugins.indent_line',
-  require 'kickstart.plugins.lint',
-  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.indent_line'
+  require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.autopairs'
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommended keymaps
 
